@@ -1316,4 +1316,24 @@ intent:#Intent;action=android.intent.action.VIEW;data=https://example.com;end
         <item quantity="many">%1$d مساهمة</item>
         <item quantity="other">%1$d مساهمة</item>
     </plurals>
+    <string name="firewall_tile_label">Firewall</string>
+    <string name="lab_state_on">تشغيل</string>
+    <string name="lab_state_off">إيقاف</string>
+    <string name="lab_state_unavailable">غير متاح</string>
+    <string name="lab_switch_service">خدمة Shizuku</string>
+    <string name="lab_switch_hiding">الإخفاء</string>
+    <string name="lab_switch_watchdog">المراقب</string>
+    <string name="lab_switch_developer_options">خيارات المطور</string>
+    <string name="lab_switch_usb_debugging">تصحيح أخطاء USB</string>
+    <string name="lab_switch_wireless_debugging">تصحيح الأخطاء اللاسلكي</string>
+    <string name="lab_switch_hide_developer_options">إخفاء خيارات المطور</string>
+    <string name="lab_switch_hide_usb_debugging">إخفاء تصحيح أخطاء USB</string>
+    <string name="lab_switch_hide_wireless_debugging">إخفاء تصحيح الأخطاء اللاسلكي</string>
+    <string name="home_switch_dev_options">خيارات المطور</string>
+    <string name="home_switch_usb">تصحيح أخطاء\nUSB</string>
+    <string name="home_switch_wireless">تصحيح الأخطاء اللاسلكي</string>
+    <string name="lab_widget_description">تشغيل هذه الميزة أو إيقافها.</string>
+    <string name="lab_switch_is_on">تم تشغيل %1$s</string>
+    <string name="lab_switch_is_off">تم إيقاف %1$s</string>
+    <string name="lab_switch_could_not_change">تعذّر تغيير %1$s</string>
 </resources>

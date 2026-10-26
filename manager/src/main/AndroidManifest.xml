@@ -66,6 +66,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Normal permission, and the one that decides whether the platform's session installer can
+         skip its confirmation: with it, an update of this app (or of an app this one installed)
+         committed with USER_ACTION_NOT_REQUIRED installs without a dialog. Everything the platform
+         still wants confirmed comes back as PENDING_USER_ACTION and is shown. -->
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
 
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
@@ -314,6 +319,401 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="Watches which app is in the foreground so that the settings a listed app objects to are hidden while it is open, and restored when it leaves. The user turns this on by adding an app to a hiding list, and the ongoing notification it posts is where the settings can be restored." />
         </service>
+
+        <!-- One tile per whole-feature switch. They call the same code the screens do, so a
+             switch here cannot mean something else than the switch inside the app; the ones
+             that need the server say Unavailable when it is not there rather than guessing. -->
+        <service
+            android:name=".service.ServiceTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_service"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.FirewallTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/firewall_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.AutoStartTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/tab_autostart"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.DeveloperOptionsTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_developer_options"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.UsbDebuggingTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_usb_debugging"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.WirelessDebuggingTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_wireless_debugging"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HidingTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_hiding"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HideDeveloperOptionsTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_developer_options"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HideUsbTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_usb_debugging"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HideWirelessTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_wireless_debugging"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HideAccessibilityTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_accessibility"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HidePrivateDnsTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_private_dns"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.HideVpnTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/hiding_signal_vpn"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.ForceDarkTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/tab_force_dark"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.WatchdogTileService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/lab_switch_watchdog"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- The same switches on the home screen, one card each. A tile announces its change and
+             only the widget for that switch redraws; nothing here polls. -->
+        <receiver
+            android:name=".widget.ServiceWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_service">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.FirewallWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/firewall_tile_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.AutoStartWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/tab_autostart">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.DeveloperOptionsWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_developer_options">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.UsbDebuggingWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_usb_debugging">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WirelessDebuggingWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_wireless_debugging">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HidingWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_hiding">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HideDeveloperOptionsWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_developer_options">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HideUsbWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_usb_debugging">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HideWirelessWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_wireless_debugging">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HideAccessibilityWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_accessibility">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HidePrivateDnsWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_private_dns">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HideVpnWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/hiding_signal_vpn">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.ForceDarkWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/tab_force_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WatchdogWidgetProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:label="@string/lab_switch_watchdog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="moe.shizuku.manager.action.LAB_SWITCH_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lab_widget_info" />
+        </receiver>
 
         <receiver
             android:name=".receiver.BinderRequestReceiver"
